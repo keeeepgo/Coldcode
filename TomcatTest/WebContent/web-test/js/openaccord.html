@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>业主管理界面-人脸识别智能门禁系统</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/openaccord.css">
+    <script src="jquery-3.3.1.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">物业管理
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    测试用户
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">个人资料</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退出</a></li>
+        </ul>
+    </div>
+  
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item"><a href="hosttable.html">业主列表</a></li>
+                <li class="layui-nav-item"><a href="openaccord.html">进出门记录</a></li>
+                <li class="layui-nav-item"><a href="">个人资料</a></li>
+                <li class="layui-nav-item"><a href="">使用帮助</a></li>
+                <li class="layui-nav-item"><a href="">问题申报</a></li>
+                <li class="layui-nav-item"><a href="">关于</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">其它系统</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">消息管理</a></dd>
+                        <dd><a href="">授权管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+            <fieldset class="layui-elem-field">
+                <legend>进出门记录</legend>
+                <div id="people-show" class="layui-field-box">
+                    <table class="layui-table" lay-filter="demo" id="people-table" lay-size="lg">
+                    </table>
+                </div>
+
+            </fieldset>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
+  </div>
+</div>
+<script src="../layui/layui.js"></script>
+
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+
+        });
+    </script>
+
+    <script>
+
+        var newtableContent = new Array();
+        var oldtableContent = new Array();
+
+     
+
+        layui.use('table', function() {
+            var table = layui.table;
+
+            //展示已知数据
+            table.render({
+                elem: '#people-table',
+                width: 1000,
+                cols: [
+                        [ //标题栏
+                            {
+                                field: 'id',
+                                title: 'ID',
+                                width: 200,
+                                sort: true,
+								
+                            }, {
+                                field: 'name',
+                                title: '姓名',
+                                width: 200
+                            }, {
+                                field: 'tel',
+                                title: '电话',
+                                width: 300
+                            }, {
+                                field: 'time',
+                                title: '时间',
+                            }
+                        ]
+                    ]
+                    // ,data: [{
+                    //   "id": "10001"
+                    //   ,"name": "杜甫"
+                    //   ,"tel": "110"
+                    //   ,"limit": "2019-11-11"
+                    // }, {
+                    //   "id": "10001"
+                    //   ,"name": "杜甫"
+                    //   ,"tel": "110"
+                    //   ,"limit": "2019-11-11"
+                    // }, {
+                    //   "id": "10001"
+                    //   ,"name": "杜甫"
+                    //   ,"tel": "110"
+                    //   ,"limit": "2019-11-11"
+                    // }]
+                    ,
+                data: oldtableContent,
+                skin: 'row' //表格风格
+                    ,
+                even: true,
+                page: true //是否显示分页
+                    ,
+                limits: [5, 7, 10],
+                limit: 5 //每页默认显示的数量
+            });
+
+
+        });
+    </script>
+	
+
+</body>
+</html>

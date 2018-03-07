@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>智能门禁管理系统-业主管理界面</title>
+	<link rel="stylesheet" href="../css/householder.css" type="text/css" />
+	<script src="jquery-3.3.1.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var ttable = $("#people-table").clone();
+		    $("#edit").click(function(){
+		    	$("#people-table input").attr("readonly",false);
+		    	$("#edit-confirm").css("display","block");
+		    	$("#edit-cancel").css("display","block");
+		    	// $("input").attr("readonly",false);
+		    	// console.log($("#people-table tr"));
+		    // 	//$("#people-table td").text("00");
+		  		// var trList = $("#people-table").find("tr");
+		  		// //console.log(trList);
+		  		// //trList.text("00");
+		  		// for(var i=0;i<trList.length;i++){
+		  		// 	var tdList = trList.eq(i).find("td");
+		  		// 	//tdList.text("00");
+		  		// 	for(var j=0;j<tdList.length;j++){
+		  		// 		//console.log(tdList.eq(j).text());
+					 //  	var td = tdList.eq(j);
+					 //  	//1,取出当前td中的文本内容保存起来
+					 //  	var text = td.text();
+					 //  	//2，清空td里边内同
+					 //  	td.html("");
+					 //  	//3,建立一个文本框，也就是建一个input节点
+					 //  	var input = $("<input>");
+					 //  	//4,设置文本框中值是保存起来的文本内容
+						// input.attr("value",text);
+						// //5，把文本框加入到td里边去
+						// td.append(input);
+						// //5.5让文本框里边的文章被高亮选中
+						// //需要将jquery的对象转换成dom对象
+						// var inputdom = input.get(0);
+						// inputdom.select();
+		  		// 	}
+		  		// }
+		  	});
+		});
+	</script>
+</head>
+
+<body>
+	<div class="header">
+
+	</div>
+	<div class="main">
+		<div id="container">
+			<button id="edit" style="display:block;">编辑</button>
+			<button id="edit-confirm" style="display:block;">确定</button>
+			<button id="edit-cancel" style="display:none;">取消</button>
+			<div id="people-show">
+				<h2>人员名单</h2>
+				<table id="people-table" border="1">
+					<tr>
+						<th>姓名</th>
+						<th>照片</th>
+						<th>电话</th>
+						<th>访问期限</th>
+					</tr>
+					<tr>
+						<td><input type="text" name="Name" value="吴" readonly="true" /></td>
+						<td>&nbsp;</td>
+						<td><input type="text" name="Tel" value="110" readonly="true" /></td>
+						<td><input type="date" name="Date" value="2020-11-11" readonly="true" /></td>
+					</tr>
+				</table>
+			</div>
+      	</div>
+	</div>
+	<div class="footer">
+		<div class="copyright">
+			<p>版权所有 © coldcode 浙ICP备666号</p>
+			<p>地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023</p>
+		</div>
+	</div>
+</body>
+</html>

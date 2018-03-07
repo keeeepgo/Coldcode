@@ -1,0 +1,16 @@
+    <div class="layer_form">
+        <div class="form_item">
+            <label>手机号码：</label>
+            <div class="form_item_input">
+                <input type="text" id="username" placeholder="手机号码" class="input_long"/>
+            </div>
+            <i class="red">*</i>
+        </div>
+        <div class="form_item">
+            <label>密 码：</label>
+            <div class="form_item_input">
+                <input type="password" id="password" placeholder="请输入密码" class="input_long"/>
+            </div>
+            <i>*</i>
+        </div>
+    </

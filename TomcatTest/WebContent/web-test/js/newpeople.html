@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>
+        业主管理界面-人脸识别智能门禁系统
+    </title>
+    <link rel="stylesheet" href="../layui/css/layui.css" type="text/css">
+    <script src="jquery-3.3.1.js" type="text/javascript">
+    </script>
+    <script src="../layui/layui.js" type="text/javascript">
+    </script>
+    <script src="jquery.facedetection.js" type="text/javascript">
+    </script>
+    <script src="cascade.js" type="text/javascript">
+    </script>
+    <script src="ccv.js" type="text/javascript">
+    </script>
+</head>
+
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>新增人员信息</legend>
+    </fieldset>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" lay-verify="required" placeholder="请填写本人真实姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">手机：</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="tel" lay-verify="required|phone" placeholder="请填写可联系的手机号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">住户类型：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" value="0" title="常驻人员">
+                <input type="radio" name="type" value="1" title="访客">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">门禁期限：</label>
+                <div class="layui-input-inline">
+                    <input type="date" name="date" lay-verify="date" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">上传人脸：</label>
+                <div class="layui-upload">
+                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:45%">
+                        预览图：
+                        <div class="layui-upload-list">
+                            <img class="layui-upload-img layui-input-inline" id="pic" src="../images/default.jpg" height="200" width="200">
+                            <button type="button" class="layui-btn layui-input-inline" id="choose" style="margin: 5px">选照片(jpg)</button>
+                            <button type="button" class="layui-btn layui-btn-disabled layui-input-inline" id="picupload" disabled="true" style="margin: 5px">上传</button>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button id="sub" class="layui-btn layui-btn-disabled" lay-submit="" lay-filter="sub" disabled="true">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                layedit = layui.layedit,
+                laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            //自定义验证规则
+            form.verify({
+                name: function (value) {
+                    if (value.length < 5) {
+                        return '名字至少得2个字符';
+                    }
+                }
+            });
+
+
+            //监听提交
+            form.on('submit(sub)', function (data) {
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })
+                return false;
+            });
+        });
+        layui.use(['upload', 'layer'], function () {
+            var $ = layui.jquery,
+                upload = layui.upload,
+                layer = layui.layer;
+     
+            //多图片上传
+            upload.render({
+                elem: '#choose',
+                url: '/upload/',
+                accept: 'image' //普通文件
+                ,
+                exts: 'jpg|jpeg' //只允许上传压缩文件
+                ,
+                auto: false,
+                multiple: false,
+                bindAction: '#picupload',
+                choose: function (obj) {
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        // var loading = layer.open({
+                        //     type: 3
+                        //     ,offset: ['200px', '100px']
+                        // });
+                        $('#pic').attr('src', result); //图片链接（base64）
+                    });
+                    $("#picupload").attr("class","layui-btn layui-btn-normal layui-input-inline");
+                    $("#picupload").attr("disabled",false);
+                },before: function(obj){
+                    //上传前
+                }, done: function (res) {
+                    //上传完毕
+                    //如果上传失败
+                    if (res.code > 0) {
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功
+                    $("#sub").attr("class","layui-btn layui-btn-normal");
+                    $("#sub").attr("disabled",false);
+                }, error: function () {
+                    //演示失败状态
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

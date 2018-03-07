@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>登陆</title>
+        <link rel="stylesheet" href="../layui/css/layui.css">
+        <link rel="stylesheet" href="../css/login.css">
+        <script src="jquery-3.3.1.js"></script>
+    </head>
+    <body class="login-body body">
+
+<fieldset class="login-box layui-elem-field">
+    <form class="layui-form layui-form-pane" method="POST" action="http://localhost:8080/TomcatTest/test.jsp">
+        <legend class="layui-form-item">人脸识别门禁系统物业管理员登录页面</legend>
+        <div class="layui-field-box">
+	        <div class="layui-form-item">
+	            <label class="layui-form-label">账号：</label>
+	
+	            <div class="layui-input-inline">
+	                <input type="text" name="account" class="layui-input" lay-verify="required|account" autocomplete="on" maxlength="20"/>
+	            </div>
+	        </div>
+	        <div class="layui-form-item">
+	            <label class="layui-form-label">密码：</label>
+	
+	            <div class="layui-input-inline">
+	                <input type="password" name="password" class="layui-input" lay-verify="required|password"  maxlength="20"/>
+	            </div>
+	        </div>
+	        <div class="layui-form-item">
+	            <button type="reset" class="layui-btn layui-btn-danger btn-reset">重置</button>
+	            <button type="submit" class="layui-btn btn-submit" lay-submit="" lay-filter="sub">立即登录</button>
+	        </div>
+		</div>
+    </form>
+</fieldset>  
+<script src="../layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        var $ = layui.jquery,form = layui.form,layer = layui.layer;
+        // 验证
+        form.verify({
+            account: function (value) {
+	
+            },
+            password: function (value) {
+ 
+            }        	
+        });
+        // 提交监听
+        form.on('submit(sub)', function (data) {
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            });
+            
+        });
+    });
+
+</script>
+    </body>
+</html>

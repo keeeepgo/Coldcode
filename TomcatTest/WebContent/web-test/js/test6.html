@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>业主管理界面-人脸识别智能门禁系统</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
+  	<script src="jquery-3.3.1.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var ttable = $("#people-table").clone(true);
+			$("#row-new").hide();
+			$("#edit-confirm").hide();
+		    $("#edit-cancel").hide();
+		    $(".row-delate").attr("disabled","true");
+		    function editToggle(){
+		    	$("#row-new").toggle();
+		    	$("#edit-confirm").toggle();
+		    	$("#edit-cancel").toggle();
+		    	$("#edit").toggle();
+		    	$("#upload").toggle();
+		    }
+		    $("#edit").click(function(){
+		    	$("#people-table input").attr("disabled",false);
+		    	editToggle();
+		    	ttable = $("#people-table").clone(true);
+		    	$(".row-delate").attr("disabled",false);
+		  	});
+		  	$("#row-new").click(function(){
+		  		var new_tr = $("#people-table tr").eq(1).clone(true); 
+		  		new_tr.find("input").attr("value","");
+		  		$("#people-table").append(new_tr);
+		  	});
+		  	$("#edit-confirm").click(function(){
+		  		$("#people-table input").attr("disabled",true);
+		  		editToggle();
+		  		$(".row-delate").attr("disabled","true");
+		  	});
+		  	$("#edit-cancel").click(function(){
+		  		$("#people-table").replaceWith(ttable);
+		  		$("#people-table input").attr("disabled",true);
+		  		editToggle();
+		  		$(".row-delate").attr("disabled","true");
+		  	});
+		  	$(".row-delate").click(function(){
+		  		$(this).parent().parent().remove();
+		  	});
+		  	$("[name='Photo']").change(function(){
+		  		console.log("change");
+		  		var url = window.URL.createObjectURL(this.files.item(0));
+		  		$(this).siblings().filter("#pre-photo").attr("src",url);
+		  	});
+		});
+	</script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+	<div class="layui-header">
+	 	<div class="layui-logo">业主后台管理</div>
+	    <!-- 头部区域（可配合layui已有的水平导航） -->
+	    <ul class="layui-nav layui-layout-left">
+	      	<li class="layui-nav-item"><a href="householder.html">门禁管理</a></li>
+	      	<li class="layui-nav-item"><a href="">账户管理</a></li>
+	      	<li class="layui-nav-item"><a href="">使用帮助</a></li>
+	      	<li class="layui-nav-item"><a href="">问题申报</a></li>
+	      	<li class="layui-nav-item"><a href="">关于</a></li>
+	      	<li class="layui-nav-item">
+	        	<a href="javascript:;">其它系统</a>
+	        	<dl class="layui-nav-child">
+	          		<dd><a href="">邮件管理</a></dd>
+	          		<dd><a href="">消息管理</a></dd>
+	          		<dd><a href="">授权管理</a></dd>
+	        	</dl>
+	      	</li>
+	    </ul>
+	    <ul class="layui-nav layui-layout-right">
+	      	<li class="layui-nav-item">
+	        	<a href="javascript:;">
+	          		<img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+	          		测试用户
+	        	</a>
+	        	<dl class="layui-nav-child">
+	          		<dd><a href="">基本资料</a></dd>
+	          		<dd><a href="">安全设置</a></dd>
+	        	</dl>
+	      	</li>
+	      	<li class="layui-nav-item"><a href="">退出</a></li>
+	    </ul>
+	</div>
+  
+  	<div class="layui-side layui-bg-black">
+    	<div class="layui-side-scroll">
+      		<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      		<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        		<li class="layui-nav-item"><a href="">可通行人员列表</a></li>
+      		</ul>
+    	</div>
+  	</div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <h2>人员名单</h2>
+    <div id="container">
+		<button id="edit" class="layui-btn">编辑</button>
+		<button id="upload" class="layui-btn">上传</button>
+		<button id="row-new" class="layui-btn">添加人员</button>
+		<button id="edit-confirm" class="layui-btn">确认</button>
+		<button id="edit-cancel" class="layui-btn">取消</button>
+		<div id="people-show">
+			
+			<table id="people-table" border="1" lay-filter="people">
+				<thead>
+					<tr>
+						<th lay-data="{field:'name', width:200}">姓名</th>
+						<th lay-data="{field:'photo', width:200}">照片</th>
+						<th lay-data="{field:'tel', width:200}">电话</th>
+			 			<th lay-data="{field:'time', width:200}">访问期限</th>
+						<th lay-data="{field:'act', width:50}">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" name="Name" value="吴" disabled="true" /></td>
+						<td>
+							<img  id="pre-photo" src="" />
+							<input type="file" name="Photo" disabled="true" accept="image/jpeg,image/jpg" />
+						</td>
+						<td><input type="text" name="Tel" value="110" disabled="true" /></td>
+						<td><input type="date" name="Date" value="2020-11-11" disabled="true" /></td>
+						<td><button class="row-delate" >删除</button></td>
+					</tr>
+					<tr>
+						<td><input type="text" name="Name" value="戴" disabled="true" /></td>
+						<td>
+							<img  id="pre-photo" src="" />
+							<input type="file" name="Photo" disabled="true" accept="image/jpeg,image/jpg" />
+						</td>
+						<td><input type="text" name="Tel" value="120" disabled="true" /></td>
+						<td><input type="date" name="Date" value="2020-11-11" disabled="true" /></td>
+						<td><button class="row-delate" >删除</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="layui-btn-group demoTable">
+		  <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+		  <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+		  <button class="layui-btn" data-type="isAll">验证是否全选</button>
+		</div>
+		 
+		<table class="layui-table" lay-data="{width: 892, height:332, url:'../data/', page:true, id:'idTest' data: [{"id":1,"name":"wu","photo":"","tel":110,"limit":"2022"}]}" lay-filter="demo">
+		  <thead>
+		    <tr>
+		      <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+		      <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
+		      <th lay-data="{field:'name', width:80}">姓名</th>
+		      <th lay-data="{field:'photo', width:200}">照片</th>
+		      <th lay-data="{field:'tel', width:160}">电话</th>
+		      <th lay-data="{field:'limit', width:160}">访问期限</th>
+		    
+		      <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
+		    </tr>
+		  </thead>
+		</table>
+		 
+		 <table class="layui-table" lay-data="{height:315, url:'/demo/table/user/', page:true, id:'test'}" lay-filter="test">
+  <thead>
+    <tr>
+      <th lay-data="{field:'id', width:80, sort: true}">ID</th>
+      <th lay-data="{field:'username', width:80}">用户名</th>
+      <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+      <th lay-data="{field:'city'}">城市</th>
+      <th lay-data="{field:'sign'}">签名</th>
+      <th lay-data="{field:'experience', sort: true}">积分</th>
+      <th lay-data="{field:'score', sort: true}">评分</th>
+      <th lay-data="{field:'classify'}">职业</th>
+      <th lay-data="{field:'wealth', sort: true}">财富</th>
+    </tr>
+  </thead>
+</table>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
+  </div>
+</div>
+<script src="../layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  
+});
+</script>
+
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+	layui.use('table', function(){
+			var table = layui.table;
+		 
+		//转换静态表格
+		table.init('people', {
+		  height: 315 //设置高度
+		  ,limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+		  //支持所有基础参数
+		}); 
+   	});
+</script>
+
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  //监听表格复选框选择
+  table.on('checkbox(demo)', function(obj){
+    console.log(obj)
+  });
+  //监听工具条
+  table.on('tool(demo)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'detail'){
+      layer.msg('ID：'+ data.id + ' 的查看操作');
+    } else if(obj.event === 'del'){
+      layer.confirm('是否确认删除该人员', function(index){
+        obj.del();
+        layer.close(index);
+      });
+    } else if(obj.event === 'edit'){
+      layer.alert('编辑行：<br>'+ JSON.stringify(data))
+    }
+  });
+  
+  var $ = layui.$, active = {
+    getCheckData: function(){ //获取选中数据
+      var checkStatus = table.checkStatus('idTest')
+      ,data = checkStatus.data;
+      layer.alert(JSON.stringify(data));
+    }
+    ,getCheckLength: function(){ //获取选中数目
+      var checkStatus = table.checkStatus('idTest')
+      ,data = checkStatus.data;
+      layer.msg('选中了：'+ data.length + ' 个');
+    }
+    ,isAll: function(){ //验证是否全选
+      var checkStatus = table.checkStatus('idTest');
+      layer.msg(checkStatus.isAll ? '全选': '未全选')
+    }
+  };
+  
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+</script>
+</body>
+</html>
