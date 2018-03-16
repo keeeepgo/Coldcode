@@ -1,31 +1,48 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <title>
-            业主管理界面-人脸识别智能门禁系统
-        </title>
-        <link rel="stylesheet" href="../layui/css/layui.css" type="text/css">
-        <script src="jquery-3.3.1.js" type="text/javascript">
-</script>
+            <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+                <title>
+                    业主管理界面-人脸识别智能门禁系统
+                </title>
+                <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
+                    <script src="jquery-3.3.1.js" type="text/javascript">
+                    </script>
+                    <script src="layui/layui.js" type="text/javascript">
+                    </script>
+                    <script src="jquery-form.js" type="text/javascript">
+                    </script>
+                </link>
+            </meta>
+        </meta>
     </head>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
             <div class="layui-header">
                 <div class="layui-logo">
                     业主管理
-                </div><!-- 头部区域（可配合layui已有的水平导航） -->
+                </div>
+                <!-- 头部区域（可配合layui已有的水平导航） -->
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
-                        <a href="javascript:;"><img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 测试用户</a>
+                        <a href="javascript:;">
+                            <img class="layui-nav-img" src="../images/default.jpg" id="status">
+                                <span id="username">用户</span>
+                            </img>
+                        </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a href="account.html">个人资料</a>
+                                <a href="">
+                                    基本资料
+                                </a>
                             </dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
-                        <a href="">退出</a>
+                        <a href="login.html">
+                            退出
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -34,28 +51,44 @@
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                     <ul class="layui-nav layui-nav-tree" lay-filter="test">
                         <li class="layui-nav-item">
-                            <a href="peopletable.html">可通行人员列表</a>
+                            <a href="">
+                                可通行人员列表
+                            </a>
                         </li>
                         <li class="layui-nav-item">
-                            <a href="account.html">个人资料</a>
+                            <a href="">
+                                个人资料
+                            </a>
                         </li>
                         <li class="layui-nav-item">
-                            <a href="">使用帮助</a>
+                            <a href="">
+                                使用帮助
+                            </a>
                         </li>
                         <li class="layui-nav-item">
-                            <a href="">问题申报</a>
+                            <a href="">
+                                问题申报
+                            </a>
                         </li>
                         <li class="layui-nav-item">
-                            <a href="">关于</a>
+                            <a href="">
+                                关于
+                            </a>
                         </li>
                         <li class="layui-nav-item">
-                            <a href="javascript:;">其它系统</a>
+                            <a href="javascript:;">
+                                其它系统
+                            </a>
                             <dl class="layui-nav-child">
                                 <dd>
-                                    <a href="">消息管理</a>
+                                    <a href="">
+                                        消息管理
+                                    </a>
                                 </dd>
                                 <dd>
-                                    <a href="">授权管理</a>
+                                    <a href="">
+                                        授权管理
+                                    </a>
                                 </dd>
                             </dl>
                         </li>
@@ -65,12 +98,17 @@
             <div class="layui-body">
                 <!-- 内容主体区域 -->
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px; line-height: 80px">
-                    <legend>账户信息修改</legend>
-                    <form class="layui-form" action="">
+                    <legend>
+                        账户信息修改
+                    </legend>
+                    <form "multipart="" action="http://192.168.0.122:8080/api/userUpdate/12344" class="layui-form" contenttype:="" form-data"="" id="info" lay-filter="info" method="post">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">姓名</label>
+                            <label class="layui-form-label">
+                                姓名
+                            </label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" lay-verify="required" placeholder="必填" autocomplete="off" class="layui-input">
+                                <input autocomplete="on" class="layui-input" lay-verify="required|name" name="username" placeholder="必填" type="text">
+                                </input>
                             </div>
                             <div class="layui-form-mid layui-word-aux">
                                 请填写本人真实姓名
@@ -78,117 +116,79 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">手机</label>
+                                <label class="layui-form-label">
+                                    手机
+                                </label>
                                 <div class="layui-input-inline">
-                                    <input type="tel" name="phone" lay-verify="required|phone" placeholder="必填" autocomplete="off" class="layui-input">
+                                    <input autocomplete="on" class="layui-input" lay-verify="required|phone" name="tel" placeholder="必填" type="tel">
+                                    </input>
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">
-                                    作为登录帐号和密码找回途径
+                                    作为联系方式
                                 </div>
                             </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                登录密码
+                            </label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" id="pwd1" lay-verify="required|pwd" name="password" placeholder="必填" type="password">
+                                </input>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                请填写6到12位密码
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                确认密码
+                            </label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" id="pwd2" lay-verify="required" placeholder="必填" type="password">
+                                    <input name="id" type="hidden">
+                                    </input>
+                                </input>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                再次输入密码以确认
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">电子邮箱</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid layui-word-aux">
-                                    可不填，作为备用密码找回途径
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">登录密码</label>
-                                <div class="layui-input-inline">
-                                    <input type="password" name="password" lay-verify="required|pass" placeholder="必填" autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid layui-word-aux">
-                                    请填写6到12位密码
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">身份证</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="identity" lay-verify="required|identity" placeholder="必填" autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid layui-word-aux">
-                                    请填写本人真实身份证
+                                <label class="layui-form-label">
+                                    上传人脸：
+                                </label>
+                                <div class="layui-upload">
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:45%">
+                                        <h4 id="tip">
+                                            即将上传的照片预览：
+                                        </h4>
+                                        <div class="layui-upload-list">
+                                            <img class="layui-upload-img layui-input-inline" height="200" id="pre-photo" src="../images/default.jpg" width="200">
+                                                <input accept="image/jpeg,image/jpg" autocomplete="off" name="image" type="file"/>
+                                                <input name="methodId" type="hidden" value="1">
+                                                    <input name="endDate" type="hidden" value="9999-12-30 00:00:00">
+                                                    </input>
+                                                </input>
+                                            </img>
+                                        </div>
+                                        <b>
+                                            请上传 文件大小 小于100KB 的 单人清晰 人脸照片!
+                                        </b>
+                                    </blockquote>
                                 </div>
                             </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">住户类型</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="type" value="房东" title="房东"> <input type="radio" name="type" value="租客" title="租客">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">住址</label>
-                                <div class="layui-input-inline">
-                                    <select name="quiz1">
-                                        <option value="">
-                                            栋号
-                                        </option>
-                                        <option value="1">
-                                            1
-                                        </option>
-                                        <option value="2">
-                                            2
-                                        </option>
-                                        <option value="3">
-                                            3
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="layui-form-mid">
-                                    栋
-                                </div>
-                                <div class="layui-input-inline">
-                                    <select name="quiz2">
-                                        <option value="">
-                                            楼层
-                                        </option>
-                                        <option value="1">
-                                            1
-                                        </option>
-                                        <option value="2">
-                                            2
-                                        </option>
-                                        <option value="3">
-                                            3
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="layui-form-mid">
-                                    层
-                                </div>
-                                <div class="layui-input-inline">
-                                    <select name="quiz3">
-                                        <option value="">
-                                            门牌号
-                                        </option>
-                                        <option value="1">
-                                            1
-                                        </option>
-                                        <option value="2">
-                                            2
-                                        </option>
-                                        <option value="3">
-                                            3
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="layui-form-mid">
-                                    号
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">单选框</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="sex" value="男" title="男"> <input type="radio" name="sex" value="女" title="女">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button> <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                                </div>
+                            s
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-disabled" disabled="true" id="sub" lay-filter="sub" lay-submit="">
+                                    立即提交
+                                </button>
+                                <button class="layui-btn layui-btn-primary" type="reset">
+                                    重置
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -198,65 +198,137 @@
                 <!-- 底部固定区域 -->
                 版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
             </div>
-        </div><script src="../layui/layui.js" type="text/javascript">
-</script><script type="text/javascript">
-//JavaScript代码区域
-        layui.use('element', function(){
-        var element = layui.element;
-
-        });
-        </script>
-        <script src="../layui/layui.js" charset="utf-8" type="text/javascript">
-		</script><!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+        </div>
         <script type="text/javascript">
-			layui.use(['form', 'layedit', 'laydate'], function(){
-	        var form = layui.form
-	        ,layer = layui.layer
-	        ,layedit = layui.layedit
-	        ,laydate = layui.laydate;
+            var searchStr = location.search;
+            //由于searchStr属性值包括“?”，所以除去该字符
+            searchStr = searchStr.substr(1);
+            //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+            var searchs = searchStr.split("&");
+            //获得第一个参数和值
+            var address = searchs[0].split("=");
+            //获取到登陆用户的id
+            var id = address[1];
 
-	        //日期
-	        laydate.render({
-	        elem: '#date'
-	        });
-	        laydate.render({
-	        elem: '#date1'
-	        });
+            $("[name='id']").val(id);
 
-	        //创建一个编辑器
-	        var editIndex = layedit.build('LAY_demo_editor');
+            var imgurl = "http://192.168.0.122:8080/images/" + id + ".jpg";
+            
+            var infourl = "http://192.168.0.122:8080/api/user/" + id;
 
-	        //自定义验证规则
-	        form.verify({
-	        title: function(value){
-	        if(value.length < 5){
-	        return '名字至少得2个字符';
-	        }
-	        }
-	        ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-	        ,content: function(value){
-	        layedit.sync(editIndex);
-	        }
-	        });
+            $.ajax({
+                type: 'get',
+                url: imgurl,
+                cache: false,
+                // dataType: "jsonp", //跨域采用jsonp方式 
+                processData: false,
+                timeout:10000, //超时时间，毫秒
+                success: function (XHR, TS) {
+                    $("#pre-photo").attr("src",imgurl);
+                    $("#status").attr("src",imgurl);
+                    $("#tip").text("已上传的照片：");
+                    $("#sub").attr("class","layui-btn layui-btn-normal");
+                    $("#sub").attr("disabled",false);
+                }     
+            });
 
-	        //监听指定开关
-	        form.on('switch(switchTest)', function(data){
-	        layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-	        offset: '6px'
-	        });
-	        layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-	        });
+            $.ajax({
+                type: 'get',
+                url: infourl,
+                cache: false,
+                // dataType: "jsonp", //跨域采用jsonp方式 
+                processData: false,
+                timeout:10000, //超时时间，毫秒
+                success: function (XHR, TS) {
+                    if(XHR["id"] != null){
+                        $("[name='username']").val(XHR["username"]);
+                        $("[name='tel']").val(XHR["tel"]);
+                        $("[name='password']").val(XHR["password"]);
+                        $("#username").text(XHR["username"]);
+                    }else{
 
-	        //监听提交
-	        form.on('submit(demo1)', function(data){
-	        layer.alert(JSON.stringify(data.field), {
-	        title: '最终的提交信息'
-	        })
-	        return false;
-	        });
+                        layer.alert('欢迎您第一次登录本系统，请完善个人信息', {icon: 6}); 
+                    }
+                }     
+            });
 
 
-	        });
+            $("[name='image']").change(function(){  
+                var files = this.files; // 获得文件对象
+                var maxsize = 1024*100;     
+                for (var i = 0, f; f = files[i]; i++){  //检查文件大小   
+                    // console.log(f.size);
+                    if(f.size > maxsize){   
+                        alert("上传的图片不能超过100KB!");   
+                        $(this).val('');   
+                    }   
+                }
+                var url = window.URL.createObjectURL(this.files.item(0));
+                $(this).siblings().filter("#pre-photo").attr("src",url);
+                $("#sub").attr("class","layui-btn layui-btn-normal");
+                $("#sub").attr("disabled",false);
+                $("#tip").text("即将上传的照片预览：");
+            });
+
+            layui.use(['form', 'layedit','layer','element'], function(){
+                var form = layui.form
+                ,layer = layui.layer;
+
+
+                //自定义验证规则
+                form.verify({
+                    name: function(value){
+                       if(value.length < 2){
+                           return '名字至少得2个字符';
+                       }
+                    }
+                    ,pwd: function(value){
+                        if($('#pwd1').val() != $('#pwd2').val()){
+                            $('#pwd1').val("");
+                            $('#pwd2').val("");
+                            return '两次填写的密码不一致！';
+                        }else if(value.length < 6 || value.length > 12){
+                            return '密码必须6到12位';
+                        }
+
+                    }
+                });
+                //监听提交
+                form.on('submit(sub)', function(data){
+
+                var searchStr = location.search;
+                //由于searchStr属性值包括“?”，所以除去该字符
+                searchStr = searchStr.substr(1);
+                //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+                var searchs = searchStr.split("&");
+                //获得第一个参数和值
+                var address = searchs[0].split("=");
+                //获取到登陆用户的id
+                var id = address[1];
+
+
+                var waiting = layer.open({
+                    type: 3
+                });
+
+                var option = {
+                    url : 'http://192.168.0.122:8080/api/userUpdate/' + id,
+                    type : 'POST',
+                    dataType : 'json',
+                    success : function(data) {
+                        layer.close(waiting);
+                        alert(JSON.stringify(data) + "--上传成功,确认后返回主界面");
+                        window.location.href='peopletable.html?id='+id;
+                    },
+                    error: function(data) {
+                        layer.close(waiting);
+                        alert(JSON.stringify(data) + "--上传失败,请重试");
+                    }
+                 };
+                $("#info").ajaxSubmit(option);
+                return false;
+                });
+            });
         </script>
     </body>
 </html>
