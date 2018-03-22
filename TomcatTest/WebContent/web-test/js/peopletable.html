@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-            <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-                <title>
-                    业主管理界面-人脸识别智能门禁系统
-                </title>
-                <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
-                    <link href="../css/peopletable.css" rel="stylesheet">
-                        <script src="layui/layui.js">
-                        </script>
-                        <script src="jquery-3.3.1.js" type="text/javascript">
-                        </script>
-                    </link>
-                </link>
-            </meta>
-        </meta>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+        <title>
+            业主管理界面-人脸识别智能门禁系统
+        </title>
+        <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
+        </link>
+        <link href="../css/peopletable.css" rel="stylesheet"/>
+        <script src="layui/layui.js">
+        </script>
+        <script src="jquery-3.3.1.js" type="text/javascript">
+        </script>
     </head>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
@@ -27,13 +24,15 @@
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">
-                            <img class="layui-nav-img" src="../images/default.jpg">
-                                用户
+                            <img class="layui-nav-img" id="status" src="../images/default.jpg">
+                                <span id="username">
+                                    用户
+                                </span>
                             </img>
                         </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a href="" id="toaccount">
+                                <a href="account.html.html">
                                     个人资料
                                 </a>
                             </dd>
@@ -51,7 +50,7 @@
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                     <ul class="layui-nav layui-nav-tree" lay-filter="test">
                         <li class="layui-nav-item">
-                            <a href="peopletable.html">
+                            <a href="">
                                 可通行人员列表
                             </a>
                         </li>
@@ -104,7 +103,7 @@
                         </legend>
                         <div class="layui-field-box" id="people-show">
                             <button class="layui-btn layui-btn-radius layui-btn-normal" id="fresh" style="margin-left: 20px;margin-top: 20px">
-                                <i class="layui-icon">
+                                <i class="layui-icon layui-anim layui-anim-rotate">
                                     ဂ
                                 </i>
                                 刷新
@@ -128,7 +127,7 @@
                 版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
             </div>
         </div>
-        <script id="barDemo" type="text/html">
+        <script id="bar" type="text/html">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="row-del" disabled="true">删除</a>
         </script>
@@ -139,6 +138,11 @@
                     table.render({
                         elem: '#people-table',
                         width: 1200,
+                        where:{
+                            success: function(result){
+                                console.log(result);
+                            }
+                        },
                         cols: [
                                 [ //标题栏
                                     {   
@@ -166,7 +170,7 @@
                                         fixed: 'right',
                                         width: 150,
                                         align: 'center',
-                                        toolbar: '#barDemo'
+                                        toolbar: '#bar'
                                     } //这里的toolbar值是模板元素的选择器
                                 ]
                             ]
@@ -184,14 +188,16 @@
         </script>
         <script>
             var searchStr = location.search;
-        //由于searchStr属性值包括“?”，所以除去该字符
-        searchStr = searchStr.substr(1);
-        //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
-        var searchs = searchStr.split("&");
-        //获得第一个参数和值
-        var address = searchs[0].split("=");
-        //获取到登陆用户的id
-        var id = address[1];
+            //由于searchStr属性值包括“?”，所以除去该字符
+            searchStr = searchStr.substr(1);
+            //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+            var searchs = searchStr.split("&");
+            //获得第一个参数和值
+            var address = searchs[0].split("=");
+            //获取到登陆用户的id
+            var id = address[1];
+
+            $("[href='account.html']").attr("href","account.html?id="+id);
               
             var imgurl = "http://192.168.0.122:8080/images/" + id + ".jpg";
             
@@ -219,13 +225,20 @@
                 success: function (XHR, TS) {
                     if(XHR["id"] != null){
                         $("#username").text(XHR["username"]);
+                        console.log($("#username").text());
                     }
                 }     
             });
 
-        layui.use(['table','element','layer'], function() {
+        layui.use(['table','element','layer','laydate'], function() {
             var table = layui.table,
-                layer = layui.layer;
+                layer = layui.layer,
+                laydate = layui.laydate;
+
+            laydate.render({
+                elem: '#date',
+                type: 'date'
+            });
 
             //展示已知数据
             table.render({
@@ -258,7 +271,7 @@
                                 fixed: 'right',
                                 width: 150,
                                 align: 'center',
-                                toolbar: '#barDemo'
+                                toolbar: '#bar'
                             } //这里的toolbar值是模板元素的选择器
                         ]
                     ]
@@ -277,9 +290,7 @@
                 var data = obj.data;
                 if (obj.event === 'del') {
                     layer.confirm('真的删除该人员么', function(index) {
-
                         var urlstr = "http://192.168.0.122:8080/api/user/" + obj.data.id;
-
                         $.ajax({
                             url: urlstr,
                             type: 'DELETE',
@@ -299,7 +310,7 @@
                         maxmin: true,  
                         skin: 'layui-layer-molv',    
                         area : ['500px' , '600px'],  
-                        content:'newpeople.html?id='+id+'&edit',
+                        content:'newpeople.html?id='+obj.data.id+'&edit'+'&parentid='+id,
                         cancel: function(index, layero){ 
                             // console.log(index);
                             // console.log(layero);
@@ -320,7 +331,7 @@
                             maxmin: true,  
                             skin: 'layui-layer-molv',    
                             area : ['500px' , '600px'],  
-                            content:'newpeople.html?id=' + id,//弹框显示的u500
+                            content:'newpeople.html?id=0&new&parentid=' + id,//弹框显示的u500
                             cancel: function(index, layero){ 
                                 // console.log(index);
                                 // console.log(layero);

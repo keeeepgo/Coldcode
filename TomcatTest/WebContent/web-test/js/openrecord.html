@@ -98,6 +98,16 @@
                         </i>
                         刷新
                     </button>
+                    <button class="layui-btn layui-btn-radius" id="search" style="margin-left: 20px;margin-top: 20px">
+                        <i class="layui-icon layui-anim layui-anim-scale">
+                            
+                        </i>
+                        智能全局搜索
+                    </button>
+                    <div class="layui-input-inline" style="margin-top: 20px">
+                        <input class="layui-input" id="searchinput" placeholder="请输入关键字" type="text" value="">
+                        </input>
+                    </div>
                     <div class="layui-field-box" id="people-show">
                         <table class="layui-table" id="people-table" lay-filter="demo" lay-size="lg">
                         </table>
@@ -111,46 +121,46 @@
         </div>
         <script>
             function freshtable() {
-        	layui.use('table', function() {
-            	var table = layui.table;
-		        table.render({
-		            elem: '#people-table'
-		            	,
-		            width: 1000
-		            	,
-		            cols: [
-		                    [ //标题栏
-		                        {
-		                            field: 'id',
-		                            title: 'ID',
-		                            width: 200,
-		                            sort: true
-		               	        }, {
-		                            field: 'username',
-		                            title: '姓名',
-		                            width: 200,
-		                            sort: true
-		                        }, {
-		           	                field: 'time',
-		            	            title: '时间',
-		            	            sort: true
-		                        }, {
-	                                field: 'status',
-	                                title: '进门情况',
-	                                sort: true
-                            	}
-		                    ]
-		                ]
-		                ,
-		                url: url
-		                    ,
-		                skin: 'row' //表格风格
-		                    ,
-		                even: true
-		                	,
-		                page: false
-		        });
-		    });
+            layui.use('table', function() {
+                var table = layui.table;
+                table.render({
+                    elem: '#people-table'
+                        ,
+                    width: 1000
+                        ,
+                    cols: [
+                            [ //标题栏
+                                {
+                                    field: 'id',
+                                    title: 'ID',
+                                    width: 200,
+                                    sort: true
+                                }, {
+                                    field: 'username',
+                                    title: '姓名',
+                                    width: 200,
+                                    sort: true
+                                }, {
+                                    field: 'time',
+                                    title: '时间',
+                                    sort: true
+                                }, {
+                                    field: 'status',
+                                    title: '进门情况',
+                                    sort: true
+                                }
+                            ]
+                        ]
+                        ,
+                        url: url
+                            ,
+                        skin: 'row' //表格风格
+                            ,
+                        even: true
+                            ,
+                        page: true
+                });
+            });
         }
         </script>
         <script>
@@ -162,9 +172,9 @@
             //展示已知数据
             table.render({
                 elem: '#people-table'
-                	,
+                    ,
                 width: 1000
-                	,
+                    ,
                 cols: [
                         [ //标题栏
                             {
@@ -190,17 +200,116 @@
                     ]
                     ,
                 url: url
-                	,
+                    ,
                 skin: 'row' //表格风格
                     ,
                 even: true
-                	,
-                page: false
+                    ,
+                page: true
             });
 
             $("#fresh").click(function(){
-            	freshtable();
+                freshtable();
             });
+                
+                $("#search").click(function() {
+                    var want = $("#searchinput").val();
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        table.render({
+                            elem: '#people-table'
+                                ,
+                            width: 1000
+                                ,
+                            url: url
+                                ,
+                            cols: [
+                                    [ //标题栏
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 200,
+                                            sort: true
+                                        }, {
+                                            field: 'username',
+                                            title: '姓名',
+                                            width: 200,
+                                            sort: true
+                                        }, {
+                                            field: 'time',
+                                            title: '时间',
+                                            sort: true
+                                        }, {
+                                            field: 'status',
+                                            title: '进门情况',
+                                            sort: true
+                                        }
+                                    ]
+                                ]
+                                , 
+                            done: function(res,curr,count){
+                                var want = $("#searchinput").val();
+                                var have = 0;
+                                for(var i=0;i<res.data.length;i++){
+                                    have = 0;
+                                    delete res.data[i]["LAY_TABLE_INDEX"];
+                                    delete res.data[i]["endDate"];
+                                    delete res.data[i]["password"];
+                                    for(var key in res.data[i]){
+                                        if(res.data[i][key] == want){
+                                            have = 1;
+                                            console.log(res.data[i]);
+                                        }
+                                    }
+                                    if(have == 0){
+                                        res.data.splice(i,i);
+                                        console.log(res.data);
+                                        if(i!=0)
+                                            i--;
+                                    }
+                                    console.log(res.data[i]);
+                                }
+                                table.render({
+                                    elem: '#people-table'
+                                        ,
+                                    data: res.data
+                                        ,
+                                    width: 1000
+                                        ,
+                                    cols: [
+                                            [ //标题栏
+                                                {
+                                                    field: 'id',
+                                                    title: 'ID',
+                                                    width: 200,
+                                                    sort: true
+                                                }, {
+                                                    field: 'username',
+                                                    title: '姓名',
+                                                    width: 200,
+                                                    sort: true
+                                                }, {
+                                                    field: 'time',
+                                                    title: '时间',
+                                                    sort: true
+                                                }, {
+                                                    field: 'status',
+                                                    title: '进门情况',
+                                                    sort: true
+                                                }
+                                            ]
+                                        ]
+                                        , 
+                                    skin: 'row' //表格风格
+                                        ,
+                                    even: true
+                                        ,
+                                    page: true
+                                });
+                            }
+                        });
+                    });
+                });
         });
         </script>
     </body>

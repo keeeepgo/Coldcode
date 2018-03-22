@@ -1,0 +1,303 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+        </meta>
+        <title>
+            业主管理界面-人脸识别智能门禁系统
+        </title>
+        <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
+        </link>
+        <script src="jquery-3.3.1.js" type="text/javascript">
+        </script>
+        <script src="layui/layui.js" type="text/javascript">
+        </script>
+        <script src="jquery-form.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>
+                人员信息
+            </legend>
+        </fieldset>
+        <form action="" class="layui-form" enctype="multipart/form-data" id="info" lay-filter="info" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    姓名：
+                </label>
+                <div class="layui-input-inline">
+                    <label class="layui-inline" id="username" style="margin-top: 9px">
+                        无姓名（或加载失败）
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">
+                        手机：
+                    </label>
+                    <div class="layui-input-inline">
+                        <label class="layui-inline" id="tel" style="margin-top: 9px">
+                            无手机号（或加载失败）
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    住户类型：
+                </label>
+                <div class="layui-input-block">
+                    <label class="layui-inline" id="type" style="margin-top: 9px">
+                        未知(或加载失败)
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">
+                        门禁期限：
+                    </label>
+                    <div class="layui-input-inline">
+                        <label class="layui-inline" id="endDate" style="margin-top: 9px">
+                            未知(或加载失败)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">
+                        人脸照片：
+                    </label>
+                    <div class="layui-upload">
+                        <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:45%">
+                            <label class="layui-inline" id="tip" style="margin-top: 9px">
+                                未知(或加载失败)
+                            </label>
+                            <div class="layui-upload-list">
+                                <img class="layui-upload-img layui-input-inline" height="200" id="pre-photo" src="../images/default.jpg" width="200">
+                                </img>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="people-show">
+                <fieldset class="layui-elem-field">
+                    <legend>
+                        所拥有访客列表
+                    </legend>
+                    <div class="layui-field-box">
+                        <button class="layui-btn layui-btn-radius layui-btn-normal" id="fresh" style="margin-left: 20px;margin-top: 20px">
+                            <i class="layui-icon layui-anim layui-anim-rotate">
+                                ဂ
+                            </i>
+                        </button>
+                        <table class="layui-table" id="people-table" lay-filter="demo" lay-size="sm">
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" onclick="location.reload();" type="reset">
+                        <i class="layui-icon layui-anim layui-anim-rotate">
+                            ဂ
+                        </i>
+                        刷新
+                    </button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            $("[name]").attr("readonly",true);
+        </script>
+        <script id="bar" type="text/html">
+            <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+        </script>
+        <script type="text/javascript">
+            var searchStr = location.search;
+            //由于searchStr属性值包括“?”，所以除去该字符
+            searchStr = searchStr.substr(1);
+            //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+            var searchs = searchStr.split("&");
+            //获得第一个参数和值
+            var address = searchs[0].split("=");
+            //获取到登陆用户的id
+            var id = address[1];
+
+            var imgurl = "http://192.168.0.122:8080/images/" + id + ".bmp";
+            
+            var infourl = "http://192.168.0.122:8080/api/user/" + id;
+
+            $.ajax({
+                type: 'get',
+                url: imgurl,
+                cache: false,
+                processData: false,
+                timeout:10000, //超时时间，毫秒
+                success: function (XHR, TS) {
+                    $("#pre-photo").attr("src",imgurl);
+                    $("#tip").text("照片预览：");
+                }     
+            });
+
+            $.ajax({
+                type: 'get',
+                url: infourl,
+                cache: false,
+                processData: false,
+                timeout:10000, //超时时间，毫秒
+                success: function (XHR, TS) {
+                    console.log(XHR);
+                    if(XHR["id"] != null){
+                        $("#username").text(XHR["username"]);
+                        $("#tel").text(XHR["tel"]);
+                        var endDate = XHR["endDate"];
+                        if(XHR["id"]<10000000){
+                            $("#type").text("业主");
+                        }else if(endDate=="9999-12-31"){
+                            $("#type").text("常驻人员");
+                            $("#people-show").remove();
+                        }else{
+                            $("#type").text("访客");
+                            $("#people-show").remove();
+                        }
+                        $("#endDate").text(endDate);
+                    }else{
+                        $("#people-table").remove();
+                        $("#people-show").text("该人员不是业主(或加载失败)");
+                    }
+                }   
+                ,
+                error: function(){
+                    $("#people-table").remove();
+                    $("#people-show").text("该人员不是业主(或加载失败)");
+                }  
+            });
+
+            layui.use(['table','element','layer'], function() {
+                var table = layui.table,
+                    layer = layui.layer;
+
+                //展示已知数据
+                table.render({
+                    elem: '#people-table',
+                    width: 800,
+                    cols: [
+                            [ //标题栏
+                                {   
+                                    field: 'id',
+                                    title: 'ID',
+                                    width: 100,
+                                    sort: true
+                                },{   
+                                    field: 'password',
+                                    title: '登录密码',
+                                    width: 100
+                                },{
+                                    field: 'username',
+                                    title: '姓名',
+                                    width: 100
+                                }, {
+                                    field: 'tel',
+                                    title: '电话',
+                                    width: 150
+                                }, {
+                                    field: 'endDate',
+                                    title: '访问期限',
+                                    sort: true
+                                }, {
+                                    fixed: 'right',
+                                    width: 150,
+                                    align: 'center',
+                                    toolbar: '#bar'
+                                } //这里的toolbar值是模板元素的选择器
+                            ]
+                        ]
+                        ,
+                    url: 'http://192.168.0.122:8080/api/users/'+id
+                        ,
+                    skin: 'row' //表格风格
+                        ,
+                    even: true
+                        ,
+                    page: true
+                });
+
+                table.on('tool(demo)', function(obj) {
+                    var data = obj.data;
+                    if (obj.event === 'detail') {
+                        layer.open({  
+                            type: 2,  
+                            title: '人员详情',  
+                            maxmin: true,  
+                            skin: 'layui-layer-molv',    
+                            area : ['500px' , '600px'],  
+                            content:'peopledetail.html?id='+obj.data.id,
+                        });  
+                    }
+                });
+            });
+            $("#fresh").click(function(){
+                freshtable();
+            });
+        </script>
+        <script type="text/javascript">
+            function freshtable() {
+            layui.use('table', function() {
+            var table = layui.table;
+            table.render({
+                elem: '#people-table',
+                width: 800,
+                url: url,
+                // data: [{
+                //             "id": "100011"
+                //             ,"username": "杜甫"
+                //             ,"tel": "11011"
+                //             ,"address": "sad"
+                //         }]
+                // ,
+                cols: [
+                        [ 
+                            {
+                                field: 'id',
+                                title: 'ID',
+                                width: 100,
+                                sort: true
+                                
+                            }, {
+                                field: 'username',
+                                title: '姓名',
+                                width: 100,
+                                sort: true
+                            }, {
+                                field: 'tel',
+                                title: '电话',
+                                width: 150
+                            }, {
+                                field: 'address',
+                                title: '住址'
+                            },{
+                                fixed: 'right',
+                                width: 150,
+                                align: 'center',
+                                toolbar: '#bar'
+                            } 
+                        ]
+                    ]
+                   , 
+                skin: 'row' 
+                    ,
+                even: true
+                    ,
+                page: true
+
+            });
+        });
+        }
+        </script>
+    </body>
+</html>

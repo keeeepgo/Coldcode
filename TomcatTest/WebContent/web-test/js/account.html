@@ -2,20 +2,26 @@
 <html>
     <head>
         <meta charset="utf-8">
-            <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-                <title>
-                    业主管理界面-人脸识别智能门禁系统
-                </title>
-                <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
-                    <script src="jquery-3.3.1.js" type="text/javascript">
-                    </script>
-                    <script src="layui/layui.js" type="text/javascript">
-                    </script>
-                    <script src="jquery-form.js" type="text/javascript">
-                    </script>
-                </link>
-            </meta>
         </meta>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+        </meta>
+        <title>
+            业主管理界面-人脸识别智能门禁系统
+        </title>
+        <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
+        </link>
+        <script src="jquery-3.3.1.js" type="text/javascript">
+        </script>
+        <script src="layui/layui.js" type="text/javascript">
+        </script>
+        <script src="jquery-form.js" type="text/javascript">
+        </script>
+        <script src="jquery-ui.js">
+        </script>
+        <script src="webcam.js">
+        </script>
+        <script src="base64DecToArr.js">
+        </script>
     </head>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
@@ -27,8 +33,10 @@
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">
-                            <img class="layui-nav-img" src="../images/default.jpg" id="status">
-                                <span id="username">用户</span>
+                            <img class="layui-nav-img" id="status" src="../images/default.jpg">
+                                <span id="username">
+                                    用户
+                                </span>
                             </img>
                         </a>
                         <dl class="layui-nav-child">
@@ -51,7 +59,7 @@
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                     <ul class="layui-nav layui-nav-tree" lay-filter="test">
                         <li class="layui-nav-item">
-                            <a href="">
+                            <a href="" id="topeopletable">
                                 可通行人员列表
                             </a>
                         </li>
@@ -160,26 +168,57 @@
                                     上传人脸：
                                 </label>
                                 <div class="layui-upload">
-                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:45%">
-                                        <h4 id="tip">
-                                            即将上传的照片预览：
-                                        </h4>
-                                        <div class="layui-upload-list">
-                                            <img class="layui-upload-img layui-input-inline" height="200" id="pre-photo" src="../images/default.jpg" width="200">
-                                                <input accept="image/jpeg,image/jpg" autocomplete="off" name="image" type="file"/>
-                                                <input name="methodId" type="hidden" value="1">
-                                                    <input name="endDate" type="hidden" value="9999-12-30 00:00:00">
-                                                    </input>
-                                                </input>
-                                            </img>
-                                        </div>
-                                        <b>
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:30%; width: 225px">
+                                        <span class="layui-btn layui-btn-radius layui-btn-md layui-btn-normal" onclick="" style="position: relative;display: inline-block;overflow: hidden;">
+                                            <span>
+                                                文件上传
+                                            </span>
+                                            <input accept="image/jpeg,image/jpg" autocomplete="off" id="fileup" name="image" style="width: 300px; height: 300px; position: absolute;left: 0px;top: 0px;opacity: 0;--ms-filter: 'alpha(opacity=0)';" type="file"/>
+                                        </span>
+                                        <br/>
+                                        <b class="layui-form-mid layui-word-aux">
                                             请上传 文件大小 小于100KB 的 单人清晰 人脸照片!
                                         </b>
                                     </blockquote>
                                 </div>
+                                <div class="layui-upload">
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:30%; width: 225px">
+                                        <span class="layui-btn layui-btn-radius layui-btn-md layui-btn-normal" id="photoup">
+                                            <span>
+                                                拍照上传
+                                            </span>
+                                        </span>
+                                        <div class="layui-container" id="camshow">
+                                            <div id="webcam" style="">
+                                            </div>
+                                            <img alt="拍照" class="layui-btn layui-btn-radius layui-btn-lg" id="take" style="margin-top: 10px;margin-left: 50px;"/>
+                                        </div>
+                                        <br/>
+                                        <b class="layui-form-mid layui-word-aux">
+                                            请用 脸的正面 对着摄像头 且确保周围 无其他人脸！
+                                        </b>
+                                    </blockquote>
+                                </div>
                             </div>
-                            s
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <a download="拍摄到的照片.jpg" id="tempphoto">
+                                </a>
+                                <label class="layui-form-label">
+                                    照片预览：
+                                </label>
+                                <div class="layui-upload">
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:30%; width: 225px">
+                                        <h4 id="tip">
+                                            即将上传的照片预览：
+                                        </h4>
+                                        <div class="layui-upload-list">
+                                            <img class="layui-upload-img layui-input-inline" height="200" id="pre-photo" src="../images/default.jpg" width="200"/>
+                                        </div>
+                                    </blockquote>
+                                </div>
+                            </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
@@ -191,6 +230,8 @@
                                 </button>
                             </div>
                         </div>
+                        <input name="methodId" type="hidden" value="1"/>
+                        <input name="endDate" type="hidden" value="9999-12-31"/>
                     </form>
                 </fieldset>
             </div>
@@ -199,6 +240,79 @@
                 版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
             </div>
         </div>
+
+        <script>
+            $("#camshow").hide();
+            $("#photoup").click(function(){
+                $("#photoup").hide();
+                $("#camshow").show();
+                layui.use(["form", "jquery", "element", "layer"], function() {
+                    var form = layui.form;
+                    var $ = layui.$;
+                    var element = layui.element;
+                    var layer = layui.layer;
+                    var timeOut;
+                    var dataURL;
+                  
+                    Webcam.set({
+                        width: 320,
+                        height: 240,
+                        dest_width: 320,
+                        dest_height: 240,
+                        crop_width: 200,
+                        crop_height: 200,
+                        image_format: "bmp",
+                        jpeg_quality: 90,
+                        force_flash: false,
+                        flip_horiz: true,
+                        fps: 45,
+                        upload_name: 'image'
+                    });
+                  
+                    Webcam.attach("#webcam");
+                    Webcam.on("error",function(err){
+                        $("#photoup").show();
+                        $("#camshow").hide();
+                        if(err.name == "NotAllowedError"){
+                            layer.alert("为了拍照，请允许申请摄像头的权限");
+                        }else{
+                            layer.alert("摄像头加载失败");
+                        }
+                    });
+                });
+            });
+
+            var blob;
+
+            $("#take").click(function () {
+                $("#photoup").show();
+                $("#camshow").hide();
+                Webcam.snap(function(data_url) {
+                    $("#pre-photo").attr("src",data_url);
+                    $("#tip").text("即将上传的照片预览：");
+                    // $("#pre-photo").attr("alt","base64上传");
+                    var raw_image_data = data_url.replace(/^data\:image\/\w+\;base64\,/, '');
+                    // create a blob and decode our base64 to binary
+                    //blob不能直接赋值给 file input (因为浏览器安全策略)
+                    // var image_fmt = RegExp.$1;
+                    // blob = new Blob( [ this.base64DecToArr(raw_image_data) ], {type: 'image/bmp'+image_fmt} );
+                    
+                    blob = new Blob( [ this.base64DecToArr(raw_image_data) ], {type: 'image/bmp'} );
+                    $("#pre-photo").attr("alt","blob上传");
+                   $("#sub").attr("class","layui-btn layui-btn-normal");
+                    $("#sub").attr("disabled",false);
+
+                    // stuff into a form, so servers can easily receive it as a standard file upload
+                    // var from=document.getElementById("info");
+                    // var form = new FormData(from);
+                    // form.append("image", blob, "image"+".bmp"+image_fmt.replace(/e/, '') );
+                    // console.log("image"+".bmp"+image_fmt.replace(/e/, ''));
+                    // var http = new XMLHttpRequest();
+                    // http.open("POST", 'http://192.168.0.122:8080/api/userUpdate/1010101', true);
+                    // http.send(form);
+                });
+            });
+        </script>
         <script type="text/javascript">
             var searchStr = location.search;
             //由于searchStr属性值包括“?”，所以除去该字符
@@ -212,9 +326,11 @@
 
             $("[name='id']").val(id);
 
-            var imgurl = "http://192.168.0.122:8080/images/" + id + ".jpg";
+            var imgurl = "http://192.168.0.122:8080/images/" + id + ".bmp";
             
             var infourl = "http://192.168.0.122:8080/api/user/" + id;
+
+
 
             $.ajax({
                 type: 'get',
@@ -227,6 +343,7 @@
                     $("#pre-photo").attr("src",imgurl);
                     $("#status").attr("src",imgurl);
                     $("#tip").text("已上传的照片：");
+                    $("[name=methodId]").val(2);
                     $("#sub").attr("class","layui-btn layui-btn-normal");
                     $("#sub").attr("disabled",false);
                 }     
@@ -245,26 +362,28 @@
                         $("[name='tel']").val(XHR["tel"]);
                         $("[name='password']").val(XHR["password"]);
                         $("#username").text(XHR["username"]);
+                        $("#peopletable").attr("href","peopletable.html?id="+id);
                     }else{
-
                         layer.alert('欢迎您第一次登录本系统，请完善个人信息', {icon: 6}); 
                     }
                 }     
             });
 
 
-            $("[name='image']").change(function(){  
+            $("#fileup").change(function(){  
                 var files = this.files; // 获得文件对象
                 var maxsize = 1024*100;     
                 for (var i = 0, f; f = files[i]; i++){  //检查文件大小   
                     // console.log(f.size);
                     if(f.size > maxsize){   
-                        alert("上传的图片不能超过100KB!");   
+                        layer.alert("上传的图片不能超过100KB!");   
                         $(this).val('');   
+                        return;
                     }   
                 }
                 var url = window.URL.createObjectURL(this.files.item(0));
-                $(this).siblings().filter("#pre-photo").attr("src",url);
+                $("#pre-photo").attr("src",url);
+                $("#pre-photo").attr("alt","文件上传");
                 $("#sub").attr("class","layui-btn layui-btn-normal");
                 $("#sub").attr("disabled",false);
                 $("#tip").text("即将上传的照片预览：");
@@ -295,38 +414,64 @@
                 });
                 //监听提交
                 form.on('submit(sub)', function(data){
-
-                var searchStr = location.search;
-                //由于searchStr属性值包括“?”，所以除去该字符
-                searchStr = searchStr.substr(1);
-                //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
-                var searchs = searchStr.split("&");
-                //获得第一个参数和值
-                var address = searchs[0].split("=");
-                //获取到登陆用户的id
-                var id = address[1];
-
-
-                var waiting = layer.open({
-                    type: 3
-                });
-
-                var option = {
-                    url : 'http://192.168.0.122:8080/api/userUpdate/' + id,
-                    type : 'POST',
-                    dataType : 'json',
-                    success : function(data) {
-                        layer.close(waiting);
-                        alert(JSON.stringify(data) + "--上传成功,确认后返回主界面");
-                        window.location.href='peopletable.html?id='+id;
-                    },
-                    error: function(data) {
-                        layer.close(waiting);
-                        alert(JSON.stringify(data) + "--上传失败,请重试");
+                    // if($("#pre-photo").attr("alt")=="文件上传"){
+                    //     $("#base64up").attr("disabled",true);
+                    // }
+                    if($("#pre-photo").attr("alt")=="blob上传"){
+                        $("#fileup").attr("disabled",true);
                     }
-                 };
-                $("#info").ajaxSubmit(option);
-                return false;
+
+                    var searchStr = location.search;
+                    //由于searchStr属性值包括“?”，所以除去该字符
+                    searchStr = searchStr.substr(1);
+                    //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+                    var searchs = searchStr.split("&");
+                    //获得第一个参数和值
+                    var address = searchs[0].split("=");
+                    //获取到登陆用户的id
+                    var id = address[1];
+
+
+                    var waiting = layer.open({
+                        type: 3
+                    });
+
+                    // var option = {
+                    //     url : 'http://192.168.0.122:8080/api/userUpdate/' + id,
+                    //     type : 'POST',
+                    //     dataType : 'json',
+                    //     success : function(data) {
+                            // layer.close(waiting);
+                            // layer.alert("上传成功,确认后返回主界面", {icon: 1});
+                            // window.location.href='peopletable.html?id='+id;
+                    //     },
+                    //     error: function(data) {
+                    //         layer.close(waiting);
+                    //         layer.alert("上传失败,请重试", {icon: 2});
+                    //     }
+                    //  };
+                    // $("#info").ajaxSubmit(option);
+
+                    var from = document.getElementById("info");
+                    var form = new FormData(from);
+                    form.append("image", blob, id+".bmp");
+                    var http = new XMLHttpRequest();
+                    http.open("POST", 'http://192.168.0.122:8080/api/userUpdate/'+id, true);
+                    http.send(form);
+
+                    layer.close(waiting);
+                    if(http.readyState==4 && http.status=200){
+                        if(http.responseText == "success"){
+                            layer.alert("上传成功,确认后返回主界面", {icon: 1});
+                            window.location.href='peopletable.html?id='+id;
+                        }else if(http.responseText == "人脸不存在"){
+                            layer.alert("未检测到人脸，请重新上传照片", {icon: 5});
+                        }
+                    }else{
+                        layer.alert("上传失败请重试", {icon: 2});
+                    }
+
+                    return false;
                 });
             });
         </script>

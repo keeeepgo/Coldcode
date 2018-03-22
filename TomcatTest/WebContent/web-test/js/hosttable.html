@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-            <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-                <title>
-                    业主管理界面-人脸识别智能门禁系统
-                </title>
-                <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
-                    <link href="../css/hosttable.css" rel="stylesheet">
-                        <script src="jquery-3.3.1.js">
-                        </script>
-                        <script src="layui/layui.js">
-                        </script>
-                    </link>
-                </link>
-            </meta>
-        </meta>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+        <title>
+            业主管理界面-人脸识别智能门禁系统
+        </title>
+        <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css"/>
+        <link href="../css/hosttable.css" rel="stylesheet"/>
+        <script src="jquery-3.3.1.js">
+        </script>
+        <script src="layui/layui.js">
+        </script>
     </head>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
@@ -93,8 +89,21 @@
                         可通行人员列表
                     </legend>
                     <button class="layui-btn layui-btn-radius layui-btn-normal" id="fresh" style="margin-left: 20px;margin-top: 20px">
-                        <i class="layui-icon">&#x1002;</i> 刷新
+                        <i class="layui-icon layui-anim layui-anim-rotate">
+                            ဂ
+                        </i>
+                        刷新
                     </button>
+                    <button class="layui-btn layui-btn-radius" id="search" style="margin-left: 20px;margin-top: 20px">
+                        <i class="layui-icon layui-anim layui-anim-scale">
+                            
+                        </i>
+                        智能全局搜索
+                    </button>
+                    <div class="layui-input-inline" style="margin-top: 20px">
+                        <input class="layui-input" id="searchinput" placeholder="请输入关键字" type="text" value="">
+                        </input>
+                    </div>
                     <div class="layui-field-box" id="people-show">
                         <table class="layui-table" id="people-table" lay-filter="demo" lay-size="lg">
                         </table>
@@ -106,95 +115,237 @@
                 版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
             </div>
         </div>
+        <script id="bar" type="text/html">
+            <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+        </script>
         <script type="text/javascript">
-        function freshtable() {
-            layui.use('table', function() {
-            var table = layui.table;
-            table.render({
-                elem: '#people-table',
-                width: 1200,
-                url: url,
-                cols: [
-                        [ 
-                            {
-                                field: 'id',
-                                title: 'ID',
-                                width: 200,
-                                sort: true
-                                
-                            }, {
-                                field: 'username',
-                                title: '姓名',
-                                width: 200,
-                                sort: true
-                            }, {
-                                field: 'tel',
-                                title: '电话',
-                                width: 300
-                            }, {
-                                field: 'address',
-                                title: '住址'
-                            }
-                        ]
-                    ]
-                   , 
-                skin: 'row' 
-                    ,
-                even: true
-                    ,
-                page: false
+            function freshtable() {
+                layui.use('table', function() {
+                    var table = layui.table;
+                    table.render({
+                        elem: '#people-table',
+                        width: 800,
+                        url: url,
+                        // data: [{
+                        //             "id": "100011"
+                        //             ,"username": "杜甫"
+                        //             ,"tel": "11011"
+                        //             ,"address": "sad"
+                        //         }]
+                        // ,
+                        cols: [
+                                [ 
+                                    {
+                                        field: 'id',
+                                        title: 'ID',
+                                        width: 100,
+                                        sort: true
+                                        
+                                    }, {
+                                        field: 'username',
+                                        title: '姓名',
+                                        width: 100,
+                                        sort: true
+                                    }, {
+                                        field: 'tel',
+                                        title: '电话',
+                                        width: 150
+                                    }, {
+                                        field: 'address',
+                                        title: '住址'
+                                    },{
+                                        fixed: 'right',
+                                        width: 150,
+                                        align: 'center',
+                                        toolbar: '#bar'
+                                    } 
+                                ]
+                            ]
+                           , 
+                        skin: 'row' 
+                            ,
+                        even: true
+                            ,
+                        page: true
 
-            });
-        });
-        }
+                    });
+                });
+            }
         </script>
         <script>
+            var url = 'http://192.168.0.122:8080/api/users';
 
-        var url = 'http://192.168.0.122:8080/api/users';
+            layui.use('table', function() {
+                var table = layui.table;
 
-        layui.use('table', function() {
-            var table = layui.table;
-
-            table.render({
-                elem: '#people-table',
-                width: 1200,
-                url: url,
-                cols: [
-                        [ //标题栏
-                            {
-                                field: 'id',
-                                title: 'ID',
-                                width: 200,
-                                sort: true,
-                            }, {
-                                field: 'username',
-                                title: '姓名',
-                                width: 200,
-                                sort: true
-                            }, {
-                                field: 'tel',
-                                title: '电话',
-                                width: 300
-                            }, {
-                                field: 'address',
-                                title: '住址',
-                            }
+                table.render({
+                    elem: '#people-table',
+                    width: 800,
+                    url: url,
+                    cols: [
+                            [ //标题栏
+                                {
+                                    field: 'id',
+                                    title: 'ID',
+                                    width: 100,
+                                    sort: true,
+                                }, {
+                                    field: 'username',
+                                    title: '姓名',
+                                    width: 100,
+                                    sort: true
+                                }, {
+                                    field: 'tel',
+                                    title: '电话',
+                                    width: 150
+                                }, {
+                                    field: 'address',
+                                    title: '住址',
+                                },{
+                                    fixed: 'right',
+                                    width: 150,
+                                    align: 'center',
+                                    toolbar: '#bar'
+                                } //这里的toolbar值是模板元素的选择器
+                            ]
                         ]
-                    ]
-                   , 
-                skin: 'row' //表格风格
-                    ,
-                even: true
-                    ,
-                page: false
+                       , 
+                    skin: 'row' //表格风格
+                        ,
+                    even: true
+                        ,
+                    page: true
+                });
+
+                           //监听工具条
+                table.on('tool(demo)', function(obj) {
+                    var data = obj.data;
+                    if (obj.event === 'detail') {
+                        layer.open({  
+                            type: 2,  
+                            title: '人员详情',  
+                            maxmin: true,  
+                            skin: 'layui-layer-molv',    
+                            area : ['900px' , '700px'],  
+                            content:'peopledetail.html?id='+obj.data.id,
+                        });  
+                    }
+                });
+
+                $("#fresh").click(function(){
+                    freshtable();
+                });
+
+                $("#search").click(function() {
+                    var want = $("#searchinput").val();
+                    if(want==""){
+                        layer.msg("关键字不能为空");
+                        return;
+                    }
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        table.render({
+                            elem: '#people-table'
+                                ,
+                            width: 800
+                                ,
+                            url: url
+                                ,
+                            cols: [
+                                    [ //标题栏
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 100,
+                                            sort: true,
+                                        }, {
+                                            field: 'username',
+                                            title: '姓名',
+                                            width: 100,
+                                            sort: true
+                                        }, {
+                                            field: 'tel',
+                                            title: '电话',
+                                            width: 150
+                                        }, {
+                                            field: 'address',
+                                            title: '住址',
+                                        },{
+                                            fixed: 'right',
+                                            width: 150,
+                                            align: 'center',
+                                            toolbar: '#bar'
+                                        } //这里的toolbar值是模板元素的选择器
+                                    ]
+                                ]
+                                , 
+                            done: function(res,curr,count){
+                                for(var i=0;i<res.data.length;i++){
+                                    have = 0;
+                                    delete res.data[i]["LAY_TABLE_INDEX"];
+                                    delete res.data[i]["endDate"];
+                                    delete res.data[i]["password"];
+                                    for(var key in res.data[i]){
+                                        if(res.data[i][key] == want){
+                                            have = 1;
+                                            // console.log(res.data[i]);
+                                        }
+                                    }
+                                    if(have == 0){
+                                        res.data.splice(i,1);
+                                        console.log('test'+i);
+                                        console.log(res.data);
+                                        i--;
+                                    }
+                                    // console.log(res.data[i]);
+                                }
+                                table.render({
+                                    elem: '#people-table'
+                                        ,
+                                    data: res.data
+                                        ,
+                                    width: 800
+                                        ,
+                                    cols: [
+                                            [ //标题栏
+                                                {
+                                                    field: 'id',
+                                                    title: 'ID',
+                                                    width: 100,
+                                                    sort: true,
+                                                }, {
+                                                    field: 'username',
+                                                    title: '姓名',
+                                                    width: 100,
+                                                    sort: true
+                                                }, {
+                                                    field: 'tel',
+                                                    title: '电话',
+                                                    width: 150
+                                                }, {
+                                                    field: 'address',
+                                                    title: '住址',
+                                                },{
+                                                    fixed: 'right',
+                                                    width: 150,
+                                                    align: 'center',
+                                                    toolbar: '#bar'
+                                                } //这里的toolbar值是模板元素的选择器
+                                            ]
+                                        ]
+                                        , 
+                                    skin: 'row' //表格风格
+                                        ,
+                                    even: true
+                                        ,
+                                    page: true
+                                });
+                            }
+                        });
+                    });
+                });
 
             });
-
-            $("#fresh").click(function(){
-                freshtable();
-            });
-
-        });
         </script>
     </body>
 </html>
