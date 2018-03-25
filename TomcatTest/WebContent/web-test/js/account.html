@@ -20,8 +20,6 @@
         </script>
         <script src="webcam.js">
         </script>
-        <script src="base64DecToArr.js">
-        </script>
     </head>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
@@ -109,7 +107,7 @@
                     <legend>
                         账户信息修改
                     </legend>
-                    <form "multipart="" action="http://192.168.0.122:8080/api/userUpdate/12344" class="layui-form" contenttype:="" form-data"="" id="info" lay-filter="info" method="post">
+                    <form "multipart="" action="" class="layui-form" contenttype:="" form-data"="" id="info" lay-filter="info" method="post">
                         <div class="layui-form-item">
                             <label class="layui-form-label">
                                 姓名
@@ -154,8 +152,6 @@
                             </label>
                             <div class="layui-input-inline">
                                 <input autocomplete="off" class="layui-input" id="pwd2" lay-verify="required" placeholder="必填" type="password">
-                                    <input name="id" type="hidden">
-                                    </input>
                                 </input>
                             </div>
                             <div class="layui-form-mid layui-word-aux">
@@ -230,7 +226,7 @@
                                 </button>
                             </div>
                         </div>
-                        <input name="methodId" type="hidden" value="1"/>
+                        <input name="id" type="hidden"/>
                         <input name="endDate" type="hidden" value="9999-12-31"/>
                     </form>
                 </fieldset>
@@ -240,19 +236,13 @@
                 版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
             </div>
         </div>
-
         <script>
             $("#camshow").hide();
             $("#photoup").click(function(){
                 $("#photoup").hide();
                 $("#camshow").show();
-                layui.use(["form", "jquery", "element", "layer"], function() {
-                    var form = layui.form;
-                    var $ = layui.$;
-                    var element = layui.element;
+                layui.use("layer", function() {
                     var layer = layui.layer;
-                    var timeOut;
-                    var dataURL;
                   
                     Webcam.set({
                         width: 320,
@@ -261,7 +251,7 @@
                         dest_height: 240,
                         crop_width: 200,
                         crop_height: 200,
-                        image_format: "bmp",
+                        image_format: "jpg",
                         jpeg_quality: 90,
                         force_flash: false,
                         flip_horiz: true,
@@ -274,9 +264,9 @@
                         $("#photoup").show();
                         $("#camshow").hide();
                         if(err.name == "NotAllowedError"){
-                            layer.alert("为了拍照，请允许申请摄像头的权限");
+                            alert("为了拍照，请允许申请摄像头的权限");
                         }else{
-                            layer.alert("摄像头加载失败");
+                            alert(err);
                         }
                     });
                 });
@@ -297,9 +287,9 @@
                     // var image_fmt = RegExp.$1;
                     // blob = new Blob( [ this.base64DecToArr(raw_image_data) ], {type: 'image/bmp'+image_fmt} );
                     
-                    blob = new Blob( [ this.base64DecToArr(raw_image_data) ], {type: 'image/bmp'} );
+                    blob = new Blob( [ this.base64DecToArr(raw_image_data) ], {type: 'image/jpg'} );
                     $("#pre-photo").attr("alt","blob上传");
-                   $("#sub").attr("class","layui-btn layui-btn-normal");
+                    $("#sub").attr("class","layui-btn layui-btn-normal");
                     $("#sub").attr("disabled",false);
 
                     // stuff into a form, so servers can easily receive it as a standard file upload
@@ -326,7 +316,7 @@
 
             $("[name='id']").val(id);
 
-            var imgurl = "http://192.168.0.122:8080/images/" + id + ".bmp";
+            var imgurl = "http://192.168.0.122:8080/images/" + id + ".jpg";
             
             var infourl = "http://192.168.0.122:8080/api/user/" + id;
 
@@ -343,7 +333,6 @@
                     $("#pre-photo").attr("src",imgurl);
                     $("#status").attr("src",imgurl);
                     $("#tip").text("已上传的照片：");
-                    $("[name=methodId]").val(2);
                     $("#sub").attr("class","layui-btn layui-btn-normal");
                     $("#sub").attr("disabled",false);
                 }     
@@ -420,18 +409,6 @@
                     if($("#pre-photo").attr("alt")=="blob上传"){
                         $("#fileup").attr("disabled",true);
                     }
-
-                    var searchStr = location.search;
-                    //由于searchStr属性值包括“?”，所以除去该字符
-                    searchStr = searchStr.substr(1);
-                    //将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
-                    var searchs = searchStr.split("&");
-                    //获得第一个参数和值
-                    var address = searchs[0].split("=");
-                    //获取到登陆用户的id
-                    var id = address[1];
-
-
                     var waiting = layer.open({
                         type: 3
                     });
@@ -454,13 +431,14 @@
 
                     var from = document.getElementById("info");
                     var form = new FormData(from);
-                    form.append("image", blob, id+".bmp");
+                    form.append("image", blob);
                     var http = new XMLHttpRequest();
                     http.open("POST", 'http://192.168.0.122:8080/api/userUpdate/'+id, true);
                     http.send(form);
 
                     layer.close(waiting);
-                    if(http.readyState==4 && http.status=200){
+                    if(http.readyState==4 && http.status==200){
+                        console.log(http.responseText);
                         if(http.responseText == "success"){
                             layer.alert("上传成功,确认后返回主界面", {icon: 1});
                             window.location.href='peopletable.html?id='+id;
