@@ -239,7 +239,11 @@
                         $("[name='image']").val(imgurl);
                         $("#sub").attr("class","layui-btn layui-btn-normal");
                         $("#sub").attr("disabled",false);
-                    }     
+                    }   
+                    ,
+                    error: function(XHR,TS){
+                        layer.alert('获取已上传图片失败');
+                    }      
                 });
 
                 $.ajax({
@@ -263,7 +267,11 @@
                             }
                             $("[name='endDate']").val(endDate);
                         }
-                    }     
+                    }   
+                    ,
+                    error: function(XHR,TS){
+                        layer.alert('获取已填信息失败');
+                    }      
                 });
             }
 
@@ -341,16 +349,27 @@
                     http.open("POST", 'http://192.168.0.122:8080/api/userUpdate/'+id, true);
                     http.send(form);
 
-                    layer.close(waiting);
-                    if(http.readyState==4 && http.status=200){
-                        if(http.responseText == "success"){
-                            layer.alert("上传成功,确认后返回主界面", {icon: 1});
-                            window.location.href='peopletable.html?id='+id;
-                        }else if(http.responseText == "人脸不存在"){
-                            layer.alert("未检测到人脸，请重新上传照片", {icon: 5});
+                    http.timeout = 3000;
+                    http.ontimeout = function(event){
+                        layer.alert('请求超时!请重试\n错误信息:'+http.status);
+                        layer.close(waiting);
+                    }
+
+                    xhr.onreadystatechange = function(){ 
+                        if(http.readyState==4 && http.status=200){
+                            if(http.responseText == "success"){
+                                layer.alert("上传成功,确认后返回主界面", {icon: 1});
+                                window.location.href='peopletable.html?id='+id;
+                            }else if(http.responseText == "人脸不存在"){
+                                layer.alert("未检测到人脸，请重新上传照片", {icon: 5});
+                            }else{
+                                layer.alert("上传失败请重试\n错误:"+http.status, {icon: 2});
+                            }
+                            layer.close(waiting);
+                        }else if(http.readyState==4){
+                            layer.alert("上传失败请重试\n错误:"+http.status, {icon: 2});
+                            layer.close(waiting);
                         }
-                    }else{
-                        layer.alert("上传失败请重试", {icon: 2});
                     }
 
                     return false;

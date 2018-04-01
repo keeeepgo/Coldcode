@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        </meta>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+        </meta>
+        <title>
+            业主管理界面-人脸识别智能门禁系统
+        </title>
+        <link href="layui/css/layui.css" media="all" rel="stylesheet" type="text/css">
+        </link>
+        <script src="js/jquery-3.3.1.js" type="text/javascript">
+        </script>
+        <script src="layui/layui.js" type="text/javascript">
+        </script>
+        <script src="js/jquery-form.js" type="text/javascript">
+        </script>
+        <script src="js/jquery-ui.js">
+        </script>
+        <script src="js/webcam.js">
+        </script>
+        <script src="js/account.js">
+        </script>
+    </head>
+    <body class="layui-layout-body">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+                <div class="layui-logo">
+                    业主管理
+                </div>
+                <!-- 头部区域（可配合layui已有的水平导航） -->
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <img class="layui-nav-img" id="status" src="images/default.jpg">
+                                <span id="username">
+                                    用户
+                                </span>
+                            </img>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="">
+                                    基本资料
+                                </a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="login.html">
+                            退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-side layui-bg-black">
+                <div class="layui-side-scroll">
+                    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                        <li class="layui-nav-item">
+                            <a href="" id="topeopletable">
+                                可通行人员列表
+                            </a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="">
+                                个人资料
+                            </a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="">
+                                使用帮助
+                            </a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="">
+                                问题申报
+                            </a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="">
+                                关于
+                            </a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">
+                                其它系统
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd>
+                                    <a href="">
+                                        消息管理
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="">
+                                        授权管理
+                                    </a>
+                                </dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-body">
+                <!-- 内容主体区域 -->
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px; line-height: 80px">
+                    <legend>
+                        账户信息修改
+                    </legend>
+                    <form action="" class="layui-form" contenttype:="" form-data"="" id="info" lay-filter="info" method="post" enctype="multipart/form-data">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                姓名
+                            </label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="on" class="layui-input" lay-verify="required|name" name="username" placeholder="必填" type="text">
+                                </input>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                请填写本人真实姓名
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">
+                                    手机
+                                </label>
+                                <div class="layui-input-inline">
+                                    <input autocomplete="on" class="layui-input" lay-verify="required|phone" name="tel" placeholder="必填" type="tel">
+                                    </input>
+                                </div>
+                                <div class="layui-form-mid layui-word-aux">
+                                    作为联系方式
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                登录密码
+                            </label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" id="pwd1" lay-verify="required|pwd" name="password" placeholder="必填" type="password">
+                                </input>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                请填写6到12位密码
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                确认密码
+                            </label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" id="pwd2" lay-verify="required" placeholder="必填" type="password">
+                                </input>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">
+                                再次输入密码以确认
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">
+                                    上传人脸：
+                                </label>
+                                <div class="layui-upload">
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:30%; width: 225px">
+                                        <span class="layui-btn layui-btn-radius layui-btn-md layui-btn-normal" onclick="" style="position: relative;display: inline-block;overflow: hidden;">
+                                            <span>
+                                                文件上传
+                                            </span>
+                                            <input accept="image/jpeg" autocomplete="off" id="fileup" name="image" style="cursor: pointer;width: 300px; height: 300px; position: absolute;left: 0px;top: 0px;opacity: 0;--ms-filter: 'alpha(opacity=0)';" type="file"/>
+                                        </span>
+                                        <br/>
+                                        <b class="layui-form-mid layui-word-aux">
+                                            请上传 文件大小 小于100KB 的 单人清晰 人脸照片!
+                                        </b>
+                                    </blockquote>
+                                </div>
+                                <div class="layui-upload">
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:30%; width: 225px">
+                                        <span class="layui-btn layui-btn-radius layui-btn-md layui-btn-normal" id="photoup">
+                                            <span>
+                                                拍照上传
+                                            </span>
+                                        </span>
+                                        <div class="layui-container" id="camshow">
+                                            <div id="webcam" style="">
+                                            </div>
+                                            <span class="layui-btn layui-btn-radius layui-btn-lg" id="take" style="margin-top: 10px;margin-left: 50px;">
+                                                <span>
+                                                    拍照
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <br/>
+                                        <b class="layui-form-mid layui-word-aux">
+                                            请用 脸的正面 对着摄像头 且确保周围 无其他人脸！
+                                        </b>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <a download="拍摄到的照片.jpg" id="tempphoto">
+                                </a>
+                                <label class="layui-form-label">
+                                    照片预览：
+                                </label>
+                                <div class="layui-upload">
+                                    <blockquote class="layui-elem-quote layui-quote-nm layui-input-inline" style="float: left;position: relative;left:30%; width: 225px">
+                                        <h4 id="tip">
+                                            即将上传的照片预览：
+                                        </h4>
+                                        <div class="layui-upload-list">
+                                            <img class="layui-upload-img layui-input-inline" height="200" id="pre-photo" src="images/default.jpg" width="200"/>
+                                        </div>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-disabled" disabled="true" id="sub" lay-filter="sub" lay-submit="">
+                                    立即提交
+                                </button>
+                                <button class="layui-btn layui-btn-primary" type="reset">
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                        <input name="id" type="hidden"/>
+                        <input name="endDate" type="hidden" value="9999-12-31"/>
+                    </form>
+                </fieldset>
+            </div>
+            <div class="layui-footer">
+                <!-- 底部固定区域 -->
+                版权所有 © coldcode 浙ICP备666号 地址：浙江·杭州市留和路318号浙江科技学院习德楼C1-509 邮编：310023
+            </div>
+        </div>
+    </body>
+</html>
